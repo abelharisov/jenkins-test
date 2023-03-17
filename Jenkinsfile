@@ -1,10 +1,19 @@
-pipeline {
-    agent { docker { image 'node:16.17.1-alpine' } }
-    stages {
-        stage('build') {
-            steps {
-                sh 'npm i'
-                sh 'npx jest'
+podTemplate(containers: [
+    containerTemplate(
+        name: 'node',
+        image: 'node:16.17.1-alpine'
+        )
+  ]) {
+
+    node(POD_LABEL) {
+        stage('Run tests') {
+            container('node') {
+                stage('Shell Execution') {
+                    sh '''
+                    'npm i'
+                    'npx jest'
+                    '''
+                }
             }
         }
     }
