@@ -1,20 +1,26 @@
 podTemplate(containers: [
-    containerTemplate(
-        name: 'node',
-        image: 'node:16.17.1-alpine'
-        )
+    containerTemplate(name: 'node', image: 'node:16.14.2-alpine3.15', command: 'sleep', args: '99d')
   ]) {
 
     node(POD_LABEL) {
-        stage('Run tests') {
+        parameters {
+            string(name: 'QASE_PROJECT_CODE')
+            string(name: 'QASE_RUN_ID')
+            string(name: 'QASE_REPORT')
+            string(name: 'QASE_RUN_COMPLETE')
+            string(name: 'QASE_API_BASE_URL')
+        }
+        
+        stage('Test') {
             container('node') {
                 stage('Shell Execution') {
                     sh '''
-                    'npm i'
-                    'npx jest'
+                    npm i
+                    npx jest
                     '''
                 }
             }
         }
+
     }
 }
