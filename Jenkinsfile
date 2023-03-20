@@ -15,6 +15,8 @@ podTemplate(containers: [
             container('node') {
                 stage('Shell Execution') {
                     sh '''
+                    git clone https://github.com/abelharisov/jenkins-test.git
+                    cd jenkins-test
                     npm i
                     npx jest
                     '''
