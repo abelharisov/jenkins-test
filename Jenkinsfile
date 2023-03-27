@@ -29,6 +29,7 @@ pipeline {
             steps {
                 git url: 'https://github.com/abelharisov/jenkins-test.git', branch: 'main'
                 container('node') {
+                    sh 'env'
                     sh 'npm i'
                     sh 'npx jest'
                 }
